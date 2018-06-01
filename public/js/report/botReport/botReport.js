@@ -54,7 +54,7 @@ function drawGraph(data, flag) {
 	
     regionChart
        // .width(280)
-        //.height(180)
+        .height(320)
         .dimension(regionDim)
         .group(regionGroup)
 		.title(function (d) {
@@ -64,12 +64,13 @@ function drawGraph(data, flag) {
 		})
 	
    countChart 
-    // .height(450)
+     .height(320)
      .dimension(countDim)
      .group(snap_to_zero(remove_empty_bins(countGroup)))
 	 .title(function (d) {
 			return d.value;
 		})
+		
     
 
 
@@ -222,7 +223,7 @@ function drawGraph(data, flag) {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .margins({
-			top: 100,
+			top: 50,
 			right: 60,
 			bottom: 100,	
 			left: 50
@@ -265,11 +266,11 @@ function drawGraph(data, flag) {
 
     speech_text
       //  .width(850)
-        .height(600)
+        .height(400)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .margins({
-			top: 100,
+			top: 50,
 			right: 60,
 			bottom: 100,	
 			left: 50
@@ -295,11 +296,11 @@ function drawGraph(data, flag) {
 		
     if (flag == 0) {
 		actuals.gap(5);
-        //dc.renderAll();
-		regionChart.render();
-		countChart.render();
-		curriculum.render();
-		speech_text.render();
+        dc.renderAll();
+		// regionChart.render();
+		// countChart.render();
+		// curriculum.render();
+		// speech_text.render();
     } else if(flag ==1 ){
     	actuals.gap(5);
 		curriculum.render();
