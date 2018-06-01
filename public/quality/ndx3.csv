@@ -1,0 +1,10 @@
+region,delivery_mode,class_type,curriculum
+EMEA,ILT,Open Enrollment,RHCE
+NAM,VT,Onsite,JBOSS
+EMEA,ILT,Open Enrollment,RHCA
+NAM,VT,Onsite,Cloud
+EMEA,ILT,Open Enrollment,Devops
+NAM,VT,Onsite,RHCE
+EMEA,ILT,Open Enrollment,JBOSS
+NAM,VT,Onsite,RHCA
+EMEA,ILT,Open Enrollment,Cloud

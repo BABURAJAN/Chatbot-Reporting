@@ -1,0 +1,195 @@
+<%layout('../../../layout')%>
+<!-- mycss -->
+    <div id="page-wrapper" class="mycss">
+        <div class="loader2 custom-display-show"></div>
+        <div class="container-fluid custom-visibility-hide">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"><i class="fa fa-line-chart"></i> Bot Report</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="dc-data-count">
+                    <a href="javascript:dc.filterAll(); dc.redrawAll();	$('#curriculum-chart select').multipleSelect('uncheckAll'); $('#curriculum-quality .bar').attr('class','bar'); ">Reset All</a>
+                </div>
+            </div>
+        <!-- <a href="#" id="downloadPDF" style="float:right;margin-right: 14px;"><i class="fa fa-download" aria-hidden="true"></i>DownloadPDF</a> -->
+            <div style="margin-left:14px;"><b>Select Date Range</b></div>
+            <div class="panel-body" style="padding-top:5px">
+                <div class="row col-lg-4">
+                    <input type="text" name="daterange" class="form-control daterange" id="daterange">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="panel panel-default" id="filters">
+                    <div class="panel-heading smaccordion" style="text-align:center; background-color:#333;color:#fff"><b> Projects </b></div>
+                    <div class="panel-body smpanel">
+                        <div class="row">
+                            <div id="project" class="center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <strong class="margins"></strong>
+                                <div class="clearfix"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                 <div class="panel panel-default" id="filters"> 
+                     <div class="panel-heading smaccordion" style="text-align:center; background-color:#333;color:#fff"><b> No of Registrations </b></div> 
+                     <div class="panel-body smpanel"> 
+                         <div class="row"> 
+                             <div id="count_chart" class="center col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                                 <strong class="margins"></strong> 
+                                 <div class="clearfix"></div> 
+                             </div> 
+                            
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+			
+             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                 <div class="panel panel-default">
+                     <div class="panel-heading smaccordion" style="text-align:center; background-color:#333;color:#fff"><b> No of Interactions</b></div>
+                     <div class="panel-body smpanel"> 
+                         <div class="row"> 
+                            
+                         </div> 
+                         <div class="row"> 
+                             <div id="curriculum-quality" class="dc-chart center col-xs-11 col-sm-11 col-md-11 col-lg-11"> 
+                                 <div class="clearfix"></div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+			
+			 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                 <div class="panel panel-default"> 
+                     <div class="panel-heading smaccordion" style="text-align:center; background-color:#333;color:#fff"><b> Speech To Text Usages </b></div> 
+                     <div class="panel-body smpanel"> 
+                         <div class="row"> 
+                            
+                         </div> 
+                         <div class="row"> 
+                             <div id="speech_text" class="dc-chart center col-xs-11 col-sm-11 col-md-11 col-lg-11"> 
+                                 <div class="clearfix"></div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+           
+            
+             <canvas id="canvas" height="500" width="700" style="display:none;"></canvas> 
+        </div>
+    </div>
+    <style>
+        @media (min-width: 564px) {
+            .daterangepicker.ltr .calendar.right {
+                margin-left: 34px !important;
+            }
+        }
+		
+		#curriculum-quality .x.axis text {
+			text-anchor: end !important;
+			transform: rotate(-45deg);
+		}
+		
+		#speech_text .x.axis text {
+			text-anchor: end !important;
+			transform: rotate(-45deg);
+		}
+		
+    </style>
+
+
+
+    <%- partial('../../../commonjs.ejs') %>
+        <script type="text/javascript" src="/js/report/botReport/botReport.js"></script>
+        <script type="text/javascript" src="/js/curriculum/sentiment_analysis/cuc-sentiment-analysis.js"></script>
+		 <script type="text/javascript" src="/js/utility.js"></script>
+
+        <link rel="stylesheet" href="/dist/css/bootstrap-multiselect.css" type="text/css">
+        <script type="text/javascript" src="/dist/js/bootstrap-multiselect.js"></script>
+		<!-- Include js for export sa pdf -->
+		<script type='text/javascript' src='/js/jspdf.min.js'></script>
+		<script type="text/javascript" src="/js/canvg.js"></script>
+
+        
+
+        <script>
+		$("#daterange").daterangepicker(
+		{
+		    locale: {
+		      format: 'DD-MM-YYYY'
+		    },
+		    startDate: '01-01-2018',
+		    endDate: '31-12-2018'
+		},
+		function(start, end, label) {
+		var  cur_date = $('#daterange').data('daterangepicker').endDate._d;
+		console.log("--selected edate-------------------------"+cur_date);
+		console.log("::start::::::::::::::::::::::"+start);
+		console.log("::end::::::::::::::::::::::::"+end);
+		console.log("=-=-=-=-=-==-=-=-=-=--=-=-=-=-="+new Date());
+			getDateRangeData('/botreport/dateRange',start, end, label)
+		}
+		
+		);
+                
+		
+            $(document).ready(function() {
+
+                getPicasiData('/botreport/report','#curriculum-quality','#cucdropdown');
+
+              
+
+            });
+			
+			
+			$('#downloadPDF').click(function() {
+			alert("babu rajan");
+                
+               
+                                $(".alert").css("display","none");
+                                var canvas = document.getElementById('canvas');
+                                var context = canvas.getContext('2d');
+                                //clearCanvas(context, canvas);
+                                
+                                var a = "<div style='border-style:solid;padding-left:20px;'> </div>";
+                                var margins={top:20,left:20,bottom:20}                 
+                                var pdf = new jsPDF('p', 'pt',[700,700]), margin = 1;
+                                pdf.setFontSize(20)
+                                
+                                pdf.text(80, 40, "Bot Report")        
+                                pdf.setLineWidth(1);                                      
+                                pdf.rect(50, 50, 600, 30);               
+                                                
+                                pdf.fromHTML(a ,60,55,{'width': 650},function (dispoase){ 
+                                                // dispose: object with X, Y of the last line add to the PDF
+                                },margins);          
+                                
+                                var $container = $('#project'),
+                     // Canvg requires trimmed content
+                     content = $container.html().trim(),
+                     canvas = document.getElementById('canvas');
+                
+                                                   // Draw svg on canvas
+                                                  canvg(canvas, content);
+                
+                     // Change img be SVG representation
+                     var png = canvas.toDataURL('image/png');
+                     pdf.addImage(png, 'PNG', 50, 100, 600, 300);
+                                pdf.save('Bot_Report.pdf');
+                
+                
+                
+});
+
+			
+			
+			
+        </script>

@@ -1,0 +1,4 @@
+{
+  "mongodbUri"  : "mongodb://localhost:27017/picasi",
+  "baseUrl" :"http://172.17.10.25:9000"
+}
